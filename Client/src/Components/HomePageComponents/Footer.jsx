@@ -23,21 +23,21 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-slate-800 text-white py-12 ">
-      <div className="w-[80%] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-slate-800 text-white py-8 md:py-12">
+      <div className="w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           
           {/* Logo + Description */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3 md:gap-4 sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-1">
             <img
               src="/assets/whiteLogo.png"
               alt="Logo"
-              className="w-20 h-auto"
+              className="w-16 md:w-20 h-auto"
             />
-            <p className="text-5xl font-bold">Tastify</p>
+            <p className="text-3xl md:text-5xl font-bold">Tastify</p>
             </div>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-400 text-xs md:text-sm">
               Fast and fresh food delivery from your favorite restaurants.
             </p>
             <div className="flex space-x-4 mt-2">
@@ -54,11 +54,11 @@ const Footer = () => {
 
           {/* Company Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Company</h3>
-            <ul className="space-y-2">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Company</h3>
+            <ul className="space-y-1 md:space-y-2">
               {companyLinks.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="text-gray-400 hover:text-white transition">
+                  <Link to={link.path} className="text-gray-400 hover:text-white transition text-sm md:text-base">
                     {link.name}
                   </Link>
                 </li>
@@ -68,11 +68,11 @@ const Footer = () => {
 
           {/* Resources Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Resources</h3>
-            <ul className="space-y-2">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Resources</h3>
+            <ul className="space-y-1 md:space-y-2">
               {resourcesLinks.map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="text-gray-400 hover:text-white transition">
+                  <Link to={link.path} className="text-gray-400 hover:text-white transition text-sm md:text-base">
                     {link.name}
                   </Link>
                 </li>
@@ -82,10 +82,10 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact</h3>
-            <ul className="space-y-2">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Contact</h3>
+            <ul className="space-y-1 md:space-y-2">
               {contactInfo.map((info, idx) => (
-                <li key={idx} className="flex items-center gap-2 text-gray-400">
+                <li key={idx} className="flex items-start gap-2 text-gray-400 text-xs md:text-sm">
                   <span>{info.icon}</span>
                   <span>{info.text}</span>
                 </li>
@@ -94,7 +94,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm">
+        <div className="border-t border-gray-700 mt-6 md:mt-8 pt-4 md:pt-6 text-center text-gray-400 text-xs md:text-sm">
           © {new Date().getFullYear()} FoodDelivery. All rights reserved.
         </div>
       </div>

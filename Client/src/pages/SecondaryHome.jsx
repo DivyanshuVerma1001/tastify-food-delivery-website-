@@ -9,7 +9,7 @@ export default function SecondaryHome(){
     return (
         <>
             <RestHeader></RestHeader>
-            <div className="mt-17 px-4"> </div>
+            <div className="mt-14 sm:mt-16 md:mt-17 px-2 sm:px-4"> </div>
             <Outlet  ></Outlet>
             <Footer></Footer>
         </>        

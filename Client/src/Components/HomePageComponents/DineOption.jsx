@@ -4,9 +4,9 @@ export default function DineOption(){
 
 
     return (
-        <div className="w-[80%] mx-auto mt-20 pb-15">
-            <p className="text-2xl font-bold">Discover best restaurant on Dineout</p>
-            <div className="flex flex-nowrap overflow-x-auto mt-5 gap-4">
+        <div className="w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] mx-auto mt-10 md:mt-20 pb-10 md:pb-15 px-4">
+            <p className="text-xl sm:text-2xl font-bold">Discover best restaurant on Dineout</p>
+            <div className="flex flex-nowrap overflow-x-auto mt-4 md:mt-5 gap-3 md:gap-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {
                     dineoutRestaurants.map((RestData)=><DineCard key={RestData?.info?.id} RestData={RestData}></DineCard>)
                 }

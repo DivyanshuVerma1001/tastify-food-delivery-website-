@@ -42,30 +42,30 @@ export default function GroceryOption() {
   };
 
   return (
-    <div id="groceryOption" className="w-[80%] container mx-auto mt-20 relative mb-20 pt-20">
-      <h1 className="text-2xl font-bold mb-5">Shop Groceries on Instamart</h1>
+    <div id="groceryOption" className="w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] container mx-auto mt-10 md:mt-20 relative mb-10 md:mb-20 pt-10 md:pt-20 px-4">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 md:mb-5">Shop Groceries on Instamart</h1>
 
       {/* Top-right manual buttons */}
-      <div className="absolute top-15 right-1 flex gap-2 z-10">
+      <div className="absolute top-12 md:top-15 right-1 flex gap-2 z-10">
         <button
           onClick={scrollRight}
-          // className="bg-black/50 text-white px-3 py-2 rounded-full"
-          
+          className="bg-white/80 hover:bg-white shadow-md rounded-full p-1"
         >
-          <CircleArrowLeft  className="h-10 w-auto text-slate-500"/>
+          <CircleArrowLeft  className="h-6 w-6 md:h-10 md:w-10 text-slate-500"/>
         </button>
         <button
           onClick={scrollLeft}
-          // className="bg-black/50 text-white px-3 py-2 rounded-full"
+          className="bg-white/80 hover:bg-white shadow-md rounded-full p-1"
         >
-          <CircleArrowRight  className="h-10 w-auto text-slate-500"/>
+          <CircleArrowRight  className="h-6 w-6 md:h-10 md:w-10 text-slate-500"/>
         </button>
       </div>
 
       {/* Scrollable container */}
       <div
         ref={scrollRef}
-        className="flex gap-3 overflow-hidden whitespace-nowrap"
+        className="flex gap-2 md:gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {imageGridCards.concat(imageGridCards).map((foodData, idx) => (
           <GroceryCard key={idx} foodData={foodData} />

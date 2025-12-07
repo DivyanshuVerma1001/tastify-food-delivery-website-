@@ -3,9 +3,13 @@ import { useState, useEffect } from "react";
 import MenuCard from "./MenuCard";
 import { Link } from "react-router";
 import MenuShimmer from "./MenuShimmer";
+import { FunnelIcon, XMarkIcon } from "@heroicons/react/24/outline";
+
 export default function RestaurantMenu() {
   let { id } = useParams();
   const [RestData, setRestData] = useState([])
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  
   useEffect(() => {
     async function fetchData() {
       const proxyServer = "https://cors-anywhere.herokuapp.com/"
@@ -30,11 +34,9 @@ export default function RestaurantMenu() {
   const [bestsellerOnly, setBestsellerOnly] = useState(false);
   const [sortOrder, setSortOrder] = useState(""); // "lowToHigh" | "highToLow"
 
-  return (
-    <div className="flex flex-row min-h-screen antialiased ">
-      {/* 🔹 Sidebar with filters */}
-      <div className="bg-white/10 max-h-screen w-74 font-body sticky top-0 p-5 pt-20 overflow-y-auto border-r-1 border-slate-400">
-        <h2 className="text-2xl font-bold text-black mb-6">Filters</h2>
+  const FilterSidebar = ({ isMobile = false }) => (
+    <div className={`${isMobile ? 'bg-white' : 'bg-white/10'} ${isMobile ? '' : 'max-h-screen sticky top-0 border-r-1 border-slate-400'} font-body p-4 md:p-5 ${isMobile ? 'pt-4' : 'pt-16 md:pt-20'} ${isMobile ? '' : 'overflow-y-auto'}`}>
+        {!isMobile && <h2 className="text-2xl font-bold text-black mb-6">Filters</h2>}
 
         {/* Veg / Nonveg Toggle */}
         <div className="flex gap-5 mt-6">
@@ -140,16 +142,49 @@ export default function RestaurantMenu() {
           </select>
         </div>
       </div>
+  );
+
+  return (
+    <div className="flex flex-row min-h-screen antialiased relative">
+      {/* 🔹 Desktop Sidebar with filters */}
+      <div className="hidden lg:block w-64 xl:w-74">
+        <FilterSidebar isMobile={false} />
+      </div>
+
+      {/* 🔹 Mobile Filter Button */}
+      <button
+        onClick={() => setMobileFiltersOpen(true)}
+        className="lg:hidden fixed top-20 right-4 z-40 bg-orange-500 text-white p-3 rounded-full shadow-lg"
+      >
+        <FunnelIcon className="w-6 h-6" />
+      </button>
+
+      {/* 🔹 Mobile Filter Overlay */}
+      {mobileFiltersOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-black/50" onClick={() => setMobileFiltersOpen(false)}>
+          <div className="absolute right-0 top-0 h-full w-80 bg-white shadow-xl overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
+              <h2 className="text-xl font-bold">Filters</h2>
+              <button onClick={() => setMobileFiltersOpen(false)}>
+                <XMarkIcon className="w-6 h-6" />
+              </button>
+            </div>
+            <div>
+              <FilterSidebar isMobile={true} />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 🔹 Main Content */}
-      <div className=" w-[80%] mx-auto mt-20">
-        <div className="w-[60%] mx-auto ">
+      <div className="w-full lg:w-[80%] mx-auto mt-16 md:mt-20 px-4">
+        <div className="w-full md:w-[80%] lg:w-[60%] mx-auto">
           <Link to={`/city/delhi/${id}/search`}>
-            <div className="w-full bg-[#02060C0D] flex items-center justify-between text-xl border rounded-2xl  font-semibold  text-slate-400 hover:cursor-text py-3">
+            <div className="w-full bg-[#02060C0D] flex items-center justify-between text-base md:text-xl border rounded-2xl font-semibold text-slate-400 hover:cursor-text py-2 md:py-3 px-4">
               <p className="mx-auto">Search for Dishes</p>
-              <span className="h-6 pr-10">
+              <span className="h-5 md:h-6 pr-4 md:pr-10">
                 <img
-                  className="h-6 contrast-1"
+                  className="h-5 md:h-6 contrast-1"
                   src="/assets/searchIcon.png"
                   alt=""
                 />
@@ -159,7 +194,7 @@ export default function RestaurantMenu() {
         </div>
 
         {/* Menu Items */}
-        <div className="w-[80%] mx-auto mt-20">
+        <div className="w-full md:w-[90%] lg:w-[80%] mx-auto mt-10 md:mt-20">
           {RestData.length === 0 ? (
             <MenuShimmer />   // Data nahi aaya → shimmer show karo
           ) : (

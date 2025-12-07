@@ -77,8 +77,8 @@ useEffect(() => {
   }
 
   return (
-    <div id="list" className="flex mix-h-[80vh] flex-wrap w-[85%] mx-auto items-center justify-center mt-25 gap-5 pb-15">
-    <div  className="flex flex-wrap   w-full mx-auto justify-center items-center gap-5 pb-15">
+    <div id="list" className="flex mix-h-[80vh] flex-wrap w-[95%] sm:w-[90%] md:w-[85%] mx-auto items-center justify-center mt-15 md:mt-25 gap-3 md:gap-5 pb-10 md:pb-15 px-4">
+    <div  className="flex flex-wrap w-full mx-auto justify-center items-center gap-3 md:gap-5 pb-10 md:pb-15">
       {/* Render restaurant cards */}
       {RestData.map((restInfo) => (
         <RestCard key={restInfo.info.id} restInfo={restInfo} />

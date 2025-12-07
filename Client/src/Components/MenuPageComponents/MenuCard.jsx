@@ -15,7 +15,7 @@ export default function MenuCard({
   if ("categories" in menuItems) {
     return (
       <div className="w-full">
-        <p className="font-bold text-3xl text-center mb-5 p-2 mt-5 ">
+        <p className="font-bold text-xl sm:text-2xl md:text-3xl text-center mb-4 md:mb-5 p-2 mt-4 md:mt-5">
           {menuItems.title}
         </p>
         <div>
@@ -39,11 +39,11 @@ export default function MenuCard({
   if (!isOpen) {
     return (
       <div className="w-full">
-        <div className="flex justify-between">
-          <p className="font-bold text-2xl mb-3">{menuItems.title}</p>
+        <div className="flex justify-between items-center">
+          <p className="font-bold text-lg sm:text-xl md:text-2xl mb-3">{menuItems.title}</p>
           <button className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <img
-              className={`h-9 mr-10 transform transition-transform duration-300 ${
+              className={`h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9 mr-4 sm:mr-6 md:mr-10 transform transition-transform duration-300 ${
                 isOpen ? "rotate-180" : "rotate-0"
               }`}
               src="../../assets/dropDown.png"
@@ -51,8 +51,8 @@ export default function MenuCard({
             />
           </button>
         </div>
-        <div className="pl-2 pr-10">
-        <div className="h-3 w-full bg-[#02060C0D] mb-5"></div>
+        <div className="pl-2 pr-4 sm:pr-6 md:pr-10">
+        <div className="h-3 w-full bg-[#02060C0D] mb-4 md:mb-5"></div>
         </div>
       </div>
     );
@@ -108,11 +108,11 @@ export default function MenuCard({
   return (
     <div className="w-full">
       {/* Section Header */}
-      <div className="flex justify-between">
-        <p className="font-bold text-2xl mb-7">{menuItems.title}</p>
+      <div className="flex justify-between items-center">
+        <p className="font-bold text-lg sm:text-xl md:text-2xl mb-5 md:mb-7">{menuItems.title}</p>
         <button className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
           <img
-            className={`h-9 mr-10 transform transition-transform duration-300 ${
+            className={`h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9 mr-4 sm:mr-6 md:mr-10 transform transition-transform duration-300 ${
               isOpen ? "rotate-180" : "rotate-0"
             }`}
             src="../../assets/dropDown.png"

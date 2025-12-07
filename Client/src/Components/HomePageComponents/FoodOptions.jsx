@@ -62,27 +62,28 @@ export default function FoodOption() {
   };
 
   return (
-    <div id="foodOption" className="w-[80%] container mx-auto mt-20 relative mb-20 pt-20">
+    <div id="foodOption" className="w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] container mx-auto mt-10 md:mt-20 relative mb-10 md:mb-20 pt-10 md:pt-20 px-4">
       {/* Top-right buttons */}
-      <div className="absolute top-1 right-1 flex gap-2 z-10">
+      <div className="absolute top-1 right-1 md:right-1 flex gap-2 z-10">
         <button
           onClick={scrollRight}
-          // className="bg-black/50 text-white px-3 py-2 rounded-full"
+          className="bg-white/80 hover:bg-white shadow-md rounded-full p-1"
         >
-          <CircleArrowLeft  className="h-10 w-auto text-slate-500"/>
+          <CircleArrowLeft  className="h-6 w-6 md:h-10 md:w-10 text-slate-500"/>
         </button>
         <button
           onClick={scrollLeft}
-          // className="bg-black/50 text-white px-3 py-2 rounded-full"
+          className="bg-white/80 hover:bg-white shadow-md rounded-full p-1"
         >
-        <CircleArrowRight  className="h-10 w-auto text-slate-500"/>
+        <CircleArrowRight  className="h-6 w-6 md:h-10 md:w-10 text-slate-500"/>
 
         </button>
       </div>
 
       <div
         ref={scrollRef}
-        className="flex gap-3 overflow-hidden whitespace-nowrap"
+        className="flex gap-2 md:gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {imageGridCards.concat(imageGridCards).map((foodData, idx) => (
           <FoodCard key={idx} foodData={foodData} />
