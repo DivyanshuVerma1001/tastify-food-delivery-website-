@@ -4,7 +4,7 @@ import { Navigate, useNavigate, useParams } from "react-router";
 import axiosClient from "../../axiosClient/axiosClient";
 import { toast } from "react-toastify";
 import FoodDeliveryLoader from "../../Components/FoodDeliveryLoader";
-import { Eye, EyeOff } from "lucide-react"; // 👈 Eye icons
+import { Eye, EyeOff } from "lucide-react"; 
 
 const ResetPassword = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);

@@ -24,12 +24,12 @@ export default function ShimmerCard() {
         }
       `}</style>
 
-      <div className="w-[280px] h-[320px] rounded-2xl shadow-md bg-white overflow-hidden relative">
-        {/* Image placeholder */}
-        <div className="w-full h-44 rounded-xl shimmer"></div>
+      <div className="w-[calc(50%-6px)] sm:w-[280px] h-[280px] sm:h-auto rounded-2xl shadow-md bg-white overflow-hidden relative flex flex-col">
+        {/* Image placeholder - Fixed height for mobile responsiveness */}
+        <div className="w-full h-48 sm:h-44 rounded-xl shimmer flex-shrink-0"></div>
 
         {/* Content */}
-        <div className="p-4 space-y-4">
+        <div className="p-3 sm:p-4 space-y-4 flex-1 flex flex-col justify-between">
           <div className="h-5 w-3/4 rounded-xl shimmer"></div>
           <div className="flex gap-4">
             <div className="h-4 w-14 rounded-xl shimmer"></div>
