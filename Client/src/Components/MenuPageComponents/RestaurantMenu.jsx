@@ -154,7 +154,7 @@ export default function RestaurantMenu() {
       {/* 🔹 Mobile Filter Button */}
       <button
         onClick={() => setMobileFiltersOpen(true)}
-        className="lg:hidden fixed top-20 right-4 z-40 bg-orange-500 text-white p-3 rounded-full shadow-lg"
+        className="lg:hidden fixed top-15 right-4 z-40 bg-orange-500 text-white p-3 rounded-full shadow-lg"
       >
         <FunnelIcon className="w-6 h-6" />
       </button>

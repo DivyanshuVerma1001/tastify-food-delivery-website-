@@ -79,7 +79,7 @@ export default function RestInfo({ restData, isVeg }) {
           </div>
         </div>
 
-        <div className="w-[20%] relative h-36">
+        <div className="w-60 md:w-[20%] relative h-36">
           <img
             draggable="false"
             className="w-full rounded-3xl h-36 object-cover"

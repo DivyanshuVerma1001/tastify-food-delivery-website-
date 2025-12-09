@@ -86,7 +86,7 @@ export default function Header() {
             </Link>
           ) : (
             <Link to="/signup">
-              <p className="border border-black py-1.5 px-3 rounded-xl bg-black hover:bg-gray-900 transition text-sm">
+              <p className="border text-white border-black py-1.5 px-3 rounded-xl bg-black hover:bg-gray-900 transition text-sm">
                 Sign in
               </p>
             </Link>
