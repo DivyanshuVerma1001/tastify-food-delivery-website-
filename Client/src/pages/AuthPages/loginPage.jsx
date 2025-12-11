@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "../../Store/authSlice";
 import GoogleLoginWrapper from "../../googleAuth/googleLoginWrapper";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { toast } from "react-toastify";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -36,9 +37,17 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      dispatch(loginUser(data));
+      const reply = await dispatch(loginUser(data));
+      if (reply.type === "auth/login/fulfilled") {
+        const successMessage = reply.payload?.message || "Login successful!";
+        toast.success(successMessage);
+      } else if (reply.type === "auth/login/rejected") {
+        const errorMessage = reply.payload || "Login failed. Please try again.";
+        toast.error(errorMessage);
+      }
     } catch (err) {
       console.error("Login error:", err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 

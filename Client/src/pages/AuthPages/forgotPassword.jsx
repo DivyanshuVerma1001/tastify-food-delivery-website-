@@ -16,9 +16,16 @@ const ForgotPassword = () => {
       const res = await axiosClient.post("/user/forgotPassword",
         { email }
       );
-      toast.success(res.data.message);
+      // Backend sends { success: true, message: "..." }
+      const successMessage = res.data?.message || "Reset link sent successfully!";
+      toast.success(successMessage);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
+      // Backend sends { error: "..." } or { message: "..." }
+      const errorMessage = 
+        error.response?.data?.error ||
+        error.response?.data?.message || 
+        "Something went wrong";
+      toast.error(errorMessage);
     }
   };
 

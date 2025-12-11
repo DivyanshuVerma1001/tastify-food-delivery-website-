@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { googleLoginUser } from '../Store/authSlice';
+import { toast } from 'react-toastify';
 const GoogleLogin=()=>{
     const navigate= useNavigate()
     const dispatch= useDispatch()
@@ -16,17 +17,21 @@ const GoogleLogin=()=>{
         },[isAuthenticated])
     const responseGoogle= async(authResult)=>{
         try{
-            if (authResult['code'])
-            console.log(authResult);
-            const reply =  dispatch(googleLoginUser(authResult['code']));
-         
-            console.log(reply)
-         
-            
-
+            if (authResult['code']) {
+                console.log(authResult);
+                const reply = await dispatch(googleLoginUser(authResult['code']));
+                if (reply.type === "auth/googleLogin/fulfilled") {
+                    const successMessage = reply.payload?.message || "Google login successful!";
+                    toast.success(successMessage);
+                } else if (reply.type === "auth/googleLogin/rejected") {
+                    const errorMessage = reply.payload || "Google login failed. Please try again.";
+                    toast.error(errorMessage);
+                }
+            }
         }
         catch(err){
             console.log('error mil gaya google login mea:',err )
+            toast.error("Google login failed. Please try again.");
         }
     }
     const googleLogin=useGoogleLogin({

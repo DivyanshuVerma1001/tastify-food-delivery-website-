@@ -4,6 +4,7 @@ import axiosClient from "../axiosClient/axiosClient";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { logoutUser } from "../Store/authSlice"
+import { toast } from "react-toastify";
 export default function ProfilePage() {
   // Checkout.jsx
 useEffect(() => {
@@ -22,9 +23,17 @@ const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
     try {
-      dispatch(logoutUser());
+      const reply = await dispatch(logoutUser());
+      if (reply.type === "auth/logout/fulfilled") {
+        const successMessage = reply.payload?.message || "Logged out successfully!";
+        toast.success(successMessage);
+      } else if (reply.type === "auth/logout/rejected") {
+        const errorMessage = reply.payload || "Logout failed. Please try again.";
+        toast.error(errorMessage);
+      }
     } catch (err) {
       console.error("Logout error:", err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 

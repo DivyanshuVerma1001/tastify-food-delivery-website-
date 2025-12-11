@@ -46,11 +46,14 @@ function Signup() {
       const reply = await dispatch(registerUser(data));
       console.log("signup page par jo respnse aya hai :" ,reply)
       if (reply.type === "auth/register/fulfilled") {
+        // Show success toast from backend message
+        const successMessage = reply.payload?.message || "Verification code sent successfully!";
+        toast.success(successMessage);
         navigate(`/otpverification/${data.email}/${data.phone}`);
       } else if (reply.type === "auth/register/rejected") {
-              const errorMessage =reply.payload || "Registration failed. Try again.";
-      toast.error(errorMessage);
-        console.error("Registration failed:", reply.payload);
+        // Show error toast from backend message
+        const errorMessage = reply.payload || "Registration failed. Please try again.";
+        toast.error(errorMessage);
       }
     } catch (err) {
       toast.error("Something went wrong. Please try again.");

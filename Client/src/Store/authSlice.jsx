@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import axiosClient from "../axiosClient/axiosClient"
-import { toast } from "react-toastify";
 
 export const registerUser = createAsyncThunk(
   'auth/register',
@@ -11,11 +10,11 @@ export const registerUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log("register error:", error);
-      // Agar backend JSON me { error: "User already exists" } bhejta hai, use yaha properly rejectWithValue me daalna
+      // Extract backend message - backend sends { error: "..." } or { message: "..." }
       const backendMessage =
-        error.response?.data?.error || // preferred: backend sends { error: "..." }
-        error.response?.data?.message || // fallback: { message: "..." }
-        error.message; // last fallback
+        error.response?.data?.error || 
+        error.response?.data?.message || 
+        error.message;
 
       return rejectWithValue(backendMessage);
     }
@@ -31,7 +30,15 @@ export const otpVerification= createAsyncThunk(
         }
         catch(error){
             console.log("error occur ",error)
-            return rejectWithValue(error.response?.data?.message || error.message)
+            // Backend sends { "Error: ": err } or { message: "..." } or { error: "..." }
+            const errorData = error.response?.data || {};
+            const backendMessage = 
+                errorData["Error: "]?.message ||
+                (typeof errorData["Error: "] === 'string' ? errorData["Error: "] : null) ||
+                errorData.error ||
+                errorData.message || 
+                error.message;
+            return rejectWithValue(backendMessage)
         }
     }
 )
@@ -43,11 +50,13 @@ export const loginUser= createAsyncThunk(
             return response.data;
         }
         catch(error){
-            // Only send back safe, serializable info
-            console.log("error in logout :" ,error)
-            return rejectWithValue(
-                error.response?.data?.message || error.message
-            )
+            // Backend sends { error: "..." } or { message: "..." }
+            console.log("error in login :" ,error)
+            const backendMessage = 
+                error.response?.data?.error ||
+                error.response?.data?.message || 
+                error.message;
+            return rejectWithValue(backendMessage)
         }    
     }
 )
@@ -62,10 +71,12 @@ export const googleLoginUser= createAsyncThunk(
             return response.data;
         }
         catch(error){
-            // Only send back safe, serializable info
-            return rejectWithValue(
-                error.response?.data?.message || error.message
-            )
+            // Backend sends { message: "..." } or { error: "..." }
+            const backendMessage = 
+                error.response?.data?.error ||
+                error.response?.data?.message || 
+                error.message;
+            return rejectWithValue(backendMessage)
         }    
     }
 )
@@ -79,10 +90,12 @@ export const googleRegisterUser= createAsyncThunk(
             return response.data;
         }
         catch(error){
-            // Only send back safe, serializable info
-            return rejectWithValue(
-                error.response?.data?.message || error.message
-            )
+            // Backend sends { message: "..." } or { error: "..." }
+            const backendMessage = 
+                error.response?.data?.error ||
+                error.response?.data?.message || 
+                error.message;
+            return rejectWithValue(backendMessage)
         }    
     }
 )
@@ -115,11 +128,16 @@ export const logoutUser = createAsyncThunk(
     'auth/logout',
     async (_,{rejectWithValue})=>{
         try{
-            await axiosClient.post("/user/logout");
-            return null
+            const response = await axiosClient.post("/user/logout");
+            return response.data; // Contains { success: true, message: "..." }
         }
         catch(err){
-            return rejectWithValue(err)
+            // Backend sends { success: false, message: "..." } or { error: "..." }
+            const backendMessage = 
+                err.response?.data?.message ||
+                err.response?.data?.error ||
+                err.message;
+            return rejectWithValue(backendMessage)
         }
     }
 )
@@ -144,16 +162,18 @@ const authSlice = createSlice({
             .addCase(registerUser.fulfilled,(state,action)=>{
                 state.loading= false;
                 state.error= null;
-                // Registration successful, but user is not authenticated yet
-                // They need to verify OTP first
+                // Toast is handled in component level
             })
             .addCase(registerUser.rejected,(state,action)=>{
                 state.loading= false;
-                state.error= action.payload?.message ||"something went wrong";
+                // Extract error message - payload is already the message string
+                const errorMessage = typeof action.payload === 'string' 
+                    ? action.payload 
+                    : action.payload?.message || action.payload?.error || "Something went wrong";
+                state.error= errorMessage;
                 state.isAuthenticated= false;
                 state.user= null
-                console.log("error in registreation :",state.error)
-                toast.error(state.error);
+                // Toast is handled in component level
             })
             //otpverification user cases
             .addCase(otpVerification.pending,(state)=>{
@@ -163,13 +183,19 @@ const authSlice = createSlice({
             .addCase(otpVerification.fulfilled,(state,action)=>{
                 state.loading= false;
                 state.isAuthenticated= !!action.payload
-                state.user= action.payload;                
+                state.user= action.payload?.user || action.payload;
+                // Toast is handled in component level
             })
             .addCase(otpVerification.rejected,(state,action)=>{
                 state.loading= false;
-                state.error= action.payload?.message ||"something went wrong";
+                // Extract error message
+                const errorMessage = typeof action.payload === 'string' 
+                    ? action.payload 
+                    : action.payload?.message || action.payload?.error || "Something went wrong";
+                state.error= errorMessage;
                 state.isAuthenticated= false;
                 state.user= null
+                // Toast is handled in component level
             })
             //login user cases;
             .addCase(loginUser.pending,(state)=>{
@@ -179,14 +205,19 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled,(state,action)=>{
                 state.loading= false;
                 state.isAuthenticated= !!action.payload
-                state.user= action.payload;
+                state.user= action.payload?.user || action.payload;
+                // Toast is handled in component level
             })
             .addCase(loginUser.rejected,(state,action)=>{
                 state.loading= false;
-                state.error= action.payload?.message|| "something went worng";
+                // Extract error message
+                const errorMessage = typeof action.payload === 'string' 
+                    ? action.payload 
+                    : action.payload?.message || action.payload?.error || "Something went wrong";
+                state.error= errorMessage;
                 state.isAuthenticated= false;
                 state.user= null
-
+                // Toast is handled in component level
             })
             //google login user cases;
             .addCase(googleLoginUser.pending,(state)=>{
@@ -196,14 +227,19 @@ const authSlice = createSlice({
             .addCase(googleLoginUser.fulfilled,(state,action)=>{
                 state.loading= false;
                 state.isAuthenticated= !!action.payload
-                state.user= action.payload;
+                state.user= action.payload?.user || action.payload;
+                // Toast is handled in component level
             })
             .addCase(googleLoginUser.rejected,(state,action)=>{
                 state.loading= false;
-                state.error= action.payload?.message|| "something went worng";
+                // Extract error message
+                const errorMessage = typeof action.payload === 'string' 
+                    ? action.payload 
+                    : action.payload?.message || action.payload?.error || "Something went wrong";
+                state.error= errorMessage;
                 state.isAuthenticated= false;
                 state.user= null
-
+                // Toast is handled in component level
             })
             //google register user cases;
             .addCase(googleRegisterUser.pending,(state)=>{
@@ -213,15 +249,19 @@ const authSlice = createSlice({
             .addCase(googleRegisterUser.fulfilled,(state,action)=>{
                 state.loading= false;
                 state.isAuthenticated= !!action.payload
-                state.user= action.payload;
+                state.user= action.payload?.user || action.payload;
+                // Toast is handled in component level
             })
             .addCase(googleRegisterUser.rejected,(state,action)=>{
                 state.loading= false;
-                state.error= action.payload?.message|| "something went worng";
+                // Extract error message
+                const errorMessage = typeof action.payload === 'string' 
+                    ? action.payload 
+                    : action.payload?.message || action.payload?.error || "Something went wrong";
+                state.error= errorMessage;
                 state.isAuthenticated= false;
                 state.user= null
-                console.log("error in google register",action.payload);
-                toast.error(state.error);
+                // Toast is handled in component level
             })
             
 
@@ -259,13 +299,18 @@ const authSlice = createSlice({
                 state.isAuthenticated= false
                 state.user= null;
                 state.error= null;
+                // Toast is handled in component level
             })
             .addCase(logoutUser.rejected,(state,action)=>{
                 state.loading= false;
-                state.error= action.payload?.message|| "something went worng";
+                // Extract error message
+                const errorMessage = typeof action.payload === 'string' 
+                    ? action.payload 
+                    : action.payload?.message || action.payload?.error || "Something went wrong";
+                state.error= errorMessage;
                 state.isAuthenticated= false;
                 state.user= null
-
+                // Toast is handled in component level
             })
     }
     

@@ -30,7 +30,19 @@ const OtpVerification = () => {
     e.preventDefault();
     const enteredOtp = otp.join("");
     const data = { email, otp: enteredOtp, phone };
-    dispatch(otpVerification(data));
+    try {
+      const reply = await dispatch(otpVerification(data));
+      if (reply.type === "auth/otpVerification/fulfilled") {
+        const successMessage = reply.payload?.message || "OTP verified successfully!";
+        toast.success(successMessage);
+      } else if (reply.type === "auth/otpVerification/rejected") {
+        const errorMessage = reply.payload || "OTP verification failed. Please try again.";
+        toast.error(errorMessage);
+      }
+    } catch (err) {
+      console.error("OTP verification error:", err);
+      toast.error("Something went wrong. Please try again.");
+    }
   };
 
   if (isAuthenticated) {

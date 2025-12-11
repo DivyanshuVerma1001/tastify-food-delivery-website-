@@ -1,5 +1,7 @@
 
 import './App.css'
+import "react-toastify/dist/ReactToastify.css";
+
 import Restaurant from './Components/RestaurantPageComponents/Restaurant'
 import Home from './pages/Home'
 import { ToastContainer } from "react-toastify";
@@ -18,6 +20,7 @@ import ForgotPassword from './pages/AuthPages/forgotPassword';
 import ResetPassword from './pages/AuthPages/resetPassword';
 import FoodDeliveryLoader from './Components/FoodDeliveryLoader';
 import ProfilePage from './pages/profile';
+import { toast } from "react-toastify";
 
 function App() {
    const {isAuthenticated,loading,user} = useSelector((state)=>state.auth)
@@ -30,12 +33,29 @@ function App() {
   },[dispatch])
   if(loading){
     return (
+      <>
       <FoodDeliveryLoader/>
+       <ToastContainer 
+           theme="colored"
+           position="top-right"
+           autoClose={3000}
+           hideProgressBar={false}
+           newestOnTop={false}
+           closeOnClick
+           rtl={false}
+           pauseOnFocusLoss
+           draggable
+           pauseOnHover
+           limit={5}
+         />   
+      </>
     )
   }
 
   return (
   	<>
+
+
         <Routes>
           <Route path="/" element={<Home></Home>}></Route>
           <Route path='/login' element ={isAuthenticated?<Navigate to="/"/>:<Login></Login>}></Route>
@@ -56,7 +76,19 @@ function App() {
           
           
         </Routes>
-         <ToastContainer theme="colored"/>   
+         <ToastContainer 
+           theme="colored"
+           position="top-right"
+           autoClose={3000}
+           hideProgressBar={false}
+           newestOnTop={false}
+           closeOnClick
+           rtl={false}
+           pauseOnFocusLoss
+           draggable
+           pauseOnHover
+           limit={5}
+         />   
     
        
     </>

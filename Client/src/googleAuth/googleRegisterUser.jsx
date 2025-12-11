@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { googleRegisterUser } from '../Store/authSlice';
+import { toast } from 'react-toastify';
 const GoogleRegister=()=>{
     const navigate= useNavigate()
     const dispatch= useDispatch()
@@ -16,16 +17,21 @@ const GoogleRegister=()=>{
         },[isAuthenticated])
     const responseGoogle= async(authResult)=>{
         try{
-            if (authResult['code'])
-            console.log(authResult);
-            const reply = await dispatch(googleRegisterUser(authResult['code']));
-         
-                
-            
-
+            if (authResult['code']) {
+                console.log(authResult);
+                const reply = await dispatch(googleRegisterUser(authResult['code']));
+                if (reply.type === "auth/googleRegister/fulfilled") {
+                    const successMessage = reply.payload?.message || "Google registration successful!";
+                    toast.success(successMessage);
+                } else if (reply.type === "auth/googleRegister/rejected") {
+                    const errorMessage = reply.payload || "Google registration failed. Please try again.";
+                    toast.error(errorMessage);
+                }
+            }
         }
         catch(err){
             console.log('error mil gaya google auth mea:',err )
+            toast.error("Google registration failed. Please try again.");
         }
     }
     const googleLogin=useGoogleLogin({

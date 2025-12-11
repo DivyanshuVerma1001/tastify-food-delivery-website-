@@ -21,14 +21,22 @@ const ResetPassword = () => {
     await axiosClient
       .post(`/user/resetPassword/${token}`, { password, confirmPassword })
       .then(async (res) => {
-        toast.success(res.data.message);
+        // Backend sends { message: "..." }
+        const successMessage = res.data?.message || "Password reset successfully!";
+        toast.success(successMessage);
         setShowLoader(true);
         setTimeout(() => {
           navigate("/login");
         }, 3000);
       })
       .catch((error) => {
-        toast.error(error.response?.data?.message || "Something went wrong");
+        // Backend sends { error: err } or { error: "..." }
+        const errorMessage = 
+          error.response?.data?.error?.message ||
+          (typeof error.response?.data?.error === 'string' ? error.response?.data?.error : null) ||
+          error.response?.data?.message || 
+          "Something went wrong";
+        toast.error(errorMessage);
         console.error(error);
       });
   };

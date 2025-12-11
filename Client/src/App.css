@@ -1,0 +1,14 @@
+/* Toast Container Styles - Mobile Responsive */
+@media (max-width: 640px) {
+  .Toastify__toast-container {
+    width: 90% !important;
+    max-width: 400px !important;
+  }
+  
+  .Toastify__toast {
+    font-size: 12px !important;
+    padding: 10px !important;
+    min-height: 50px !important;
+  }
+}
+
