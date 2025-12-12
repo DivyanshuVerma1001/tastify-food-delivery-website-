@@ -38,15 +38,15 @@ export default function RestInfo({ restData, isVeg }) {
     <>
       <div className="flex font-body w-full justify-between mb-2 pb-5 mt-3 px-2">
         <div className="w-[70%]">
-          <p className="text-2xl text-slate-800 font-semibold mb-2">{restData?.name}</p>
+          <p className=" text-md md:text-2xl text-slate-800 font-semibold mb-2">{restData?.name}</p>
           <p>
             <img
-              className="h-5"
+              className="h-3  md:h-5"
               src={isVeg ? "../../assets/vegSymbol.png" : "../../assets/nonvegSymbol.png"}
               alt=""
             />
           </p>
-          <p className="text-xl">₹ {restData?.price / 100}</p>
+          <p className="text-sm md:text-xl">₹ {restData?.price / 100}</p>
           <div className="flex items-center ">
             <FaStar className="text-green-700  " />  
           <span className="text-green-700 font-bold ">
@@ -79,10 +79,10 @@ export default function RestInfo({ restData, isVeg }) {
           </div>
         </div>
 
-        <div className="w-60 md:w-[20%] relative h-36">
+        <div className=" w-[ 30%] md:w-[20%] relative h-36 ml-3">
           <img
             draggable="false"
-            className="w-full rounded-3xl h-36 object-cover"
+            className=" rounded-3xl h-28 w-28 md:h-36 object-cover"
             src={
               "https://media-assets.swiggy.com/swiggy/image/upload/" +
               restData?.imageId
@@ -93,7 +93,7 @@ export default function RestInfo({ restData, isVeg }) {
             <button
               id="button"
               onClick={handleAdditems}
-              className="absolute cursor-pointer text-green-600 text-xl font-bold px-4 py-2 shadow-2xl border rounded-xl bg-white bottom-[-19px] left-1/2 -translate-x-1/2"
+              className="absolute cursor-pointer text-green-600 text-xl font-bold px-4 py-2 shadow-2xl border rounded-xl bg-white bottom-[5px] md:bottom-[-19px] left-1/2 -translate-x-1/2"
             >
               ADD
             </button>
