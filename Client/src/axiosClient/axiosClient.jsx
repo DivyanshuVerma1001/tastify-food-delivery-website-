@@ -1,6 +1,6 @@
 import axios from 'axios'
 const axiosClient= axios.create({
-    baseURL:"https://food-del-backend-cgd5.onrender.com",
+    baseURL:import.meta.env.VITE_BACKEND_URL,
     withCredentials:true,
     headers:{
         'Content-Type':'application/json'
