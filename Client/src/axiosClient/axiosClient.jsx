@@ -1,6 +1,6 @@
 import axios from 'axios'
 const axiosClient= axios.create({
-    baseURL:import.meta.env.VITE_BACKEND_URL,
+    baseURL:'https://tastify-food-delivery-website.vercel.app',
     withCredentials:true,
     headers:{
         'Content-Type':'application/json'
