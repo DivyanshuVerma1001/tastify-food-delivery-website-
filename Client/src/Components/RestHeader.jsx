@@ -7,7 +7,7 @@ export default function RestHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
-    <header className="fixed font-heading top-0 left-0 w-full z-50 bg-[#ff5200] shadow-md">
+    <header className="fixed font-heading top-0 left-0 w-full z-100 bg-[#ff5200] shadow-md">
       <div className="container mx-auto flex justify-between items-center px-4 sm:px-6 md:px-8 py-2">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 sm:gap-3">
